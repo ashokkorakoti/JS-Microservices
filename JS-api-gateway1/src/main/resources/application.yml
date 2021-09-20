@@ -1,0 +1,25 @@
+server:
+  port: 9191
+spring:
+  application:
+    name: JS-api-gateway
+  cloud: 
+   gateway:
+      routes: 
+      - id: JS-Profiles-service
+        uri: lb://JS-Profiles1-service
+        predicates: 
+          - Path=/JS-Profiles/**
+      - id: JS-Jobs1-service
+        uri: lb://JS-Jobs-service
+        predicates: 
+          - Path=/JS-Jobs/**
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka
